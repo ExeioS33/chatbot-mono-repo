@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+
+  qa-service:
+    build: 
+      context: ./docker-qa
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docker-qa:/app
+    networks:
+      - app-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+networks:
+  app-network:
+    driver: bridge
